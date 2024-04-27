@@ -1,12 +1,35 @@
+I don't understand why you aren't provided it in the read me. 
+
 # VS Code Opener
 
 ## Description
-VS Code Opener is a simple, efficient command-line tool developed in Rust, designed to open files or directories directly in Visual Studio Code. This utility intelligently supports both `code` and `code-insiders` executables, automatically defaulting to `code` if both are available.
+VS Code Opener is a simple, efficient command-line tool developed in Rust, designed to open files or directories directly in Visual Studio Code. This utility supports both `code` and `code-insiders` executables, intelligently defaulting to `code` if both are available.
 
 ## Features
 - **File Opening:** Open any specific file directly in Visual Studio Code.
 - **Directory Opening:** Open directories in Visual Studio Code, including support for the current directory via `.`.
+- **Window Management:** Choose to open files or directories in a new window or reuse an existing one.
 - **Executable Detection:** Automatically detects and utilizes `code` or `code-insiders`, with a preference for `code` if both are installed.
+
+Open a file or directory in new VS code window
+```bash
+vsc --new <location>
+```
+
+Reuse an existing VS Code window to open a file or directory
+```bash
+vsc --reuse <location>
+```
+
+Open the current directory in a new VS Code window
+```bash
+vsc --new .
+```
+
+Reuse an existing VS Code window to add the current directory
+```bash
+vsc --reuse .
+```
 
 ## Installation
 
