@@ -1,22 +1,26 @@
-use clap::{Command, Arg};
-use std::process::Command as SystemCommand;
+use clap::{Arg, Command};
 use std::env;
+use std::process::Command as SystemCommand;
 
 fn main() {
     let matches = Command::new("VS Code Opener")
         .version("1.0")
         .author("Your Name")
         .about("Opens files or directories in VS Code")
-        .arg(Arg::new("new-window")
-            .long("new")
-            .value_name("FILE_OR_DIR")
-            .help("Open in a new window")
-            .action(clap::ArgAction::Set))  // Use ArgAction::Set for clap 4.x
-        .arg(Arg::new("reuse-window")
-            .long("reuse")
-            .value_name("FILE_OR_DIR")
-            .help("Reuse an existing window")
-            .action(clap::ArgAction::Set))  // Use ArgAction::Set for clap 4.x
+        .arg(
+            Arg::new("new-window")
+                .long("new")
+                .value_name("FILE_OR_DIR")
+                .help("Open in a new window")
+                .action(clap::ArgAction::Set),
+        ) // Use ArgAction::Set for clap 4.x
+        .arg(
+            Arg::new("reuse-window")
+                .long("reuse")
+                .value_name("FILE_OR_DIR")
+                .help("Reuse an existing window")
+                .action(clap::ArgAction::Set),
+        ) // Use ArgAction::Set for clap 4.x
         .get_matches();
 
     let path = if let Some(path) = matches.get_one::<String>("new-window") {
@@ -47,16 +51,18 @@ fn main() {
     }
 
     let status = if path == "." {
-        command.current_dir(env::current_dir().unwrap())
-               .arg(".")
-               .status()
+        command
+            .current_dir(env::current_dir().unwrap())
+            .arg(".")
+            .status()
     } else {
-        command.arg(path)
-               .status()
+        command.arg(path).status()
     };
 
     match status {
-        Ok(status) if status.success() => println!("Opened '{}' successfully with '{}'.", path, vscode_command),
+        Ok(status) if status.success() => {
+            println!("Opened '{}' successfully with '{}'.", path, vscode_command)
+        }
         Ok(_) => eprintln!("VS Code exited with an error."),
         Err(e) => eprintln!("Failed to execute VS Code: {}", e),
     }
